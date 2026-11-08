@@ -1,0 +1,46 @@
+name: Switch CI runners
+
+on:
+  schedule:
+    - cron: "17 * * * *" # hourly
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only report, don't change anything
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: switch
+  cancel-in-progress: false
+
+jobs:
+  switch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set CI_RUNNER from this month's usage
+        env:
+          GH_TOKEN: ${{ secrets.SWITCHER_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Add the SWITCHER_TOKEN secret (classic PAT with repo and read:org scopes)."
+            exit 1
+          fi
+          bash switch.sh
+
+      - name: Commit state
+        if: always()
+        run: |
+          [ -z "$(git status --porcelain -- STATE.md)" ] && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add STATE.md
+          git commit -m "Update runner state"
+          git push
