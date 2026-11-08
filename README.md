@@ -4,7 +4,7 @@ Moves private repos from GitHub-hosted runners to [Blacksmith](https://blacksmit
 
 Every hour, a workflow reads each org's Actions minutes for the current month from the billing API and sets the repo variable `CI_RUNNER`:
 
-- at or above the threshold (default 1,800 of the 2,000 free minutes): `blacksmith`
+- at or above the threshold (default 1,900 of the 2,000 free minutes): `blacksmith`
 - below it: `github`
 
 Workflows in the target repos pick their runner with:

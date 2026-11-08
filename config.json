@@ -1,5 +1,5 @@
 {
-  "default_threshold_minutes": 1800,
+  "default_threshold_minutes": 1900,
   "repos": [
     { "repo": "hooksounds/hooksounds" },
     { "repo": "rexito-dev/rexito" },
