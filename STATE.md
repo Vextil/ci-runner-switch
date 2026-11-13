@@ -6,4 +6,4 @@ Month: 2026-11 (UTC). Updated automatically by the switch workflow.
 |---|---|
 | hooksounds/hooksounds | github |
 | rexito-dev/rexito | github |
-| cobro-dev/cobro | github |
+| cobro-dev/cobro | blacksmith |
